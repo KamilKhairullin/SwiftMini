@@ -25,6 +25,7 @@
 /* Begin PBXFileReference section */
 		8E3E00492E22698E00FC0C84 /* SwiftMini */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SwiftMini; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E3E004C2E22698E00FC0C84 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		8E3E005E2E226BBE00FC0C84 /* Token.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Token.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,9 +58,82 @@
 		8E3E004B2E22698E00FC0C84 /* SwiftMini */ = {
 			isa = PBXGroup;
 			children = (
+				8E3E00532E226A1C00FC0C84 /* src */,
 				8E3E004C2E22698E00FC0C84 /* main.cpp */,
 			);
 			path = SwiftMini;
+			sourceTree = "<group>";
+		};
+		8E3E00532E226A1C00FC0C84 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				8E3E00582E226B8200FC0C84 /* include */,
+				8E3E00592E226B8500FC0C84 /* lib */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		8E3E00542E226A2700FC0C84 /* Parse */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Parse;
+			sourceTree = "<group>";
+		};
+		8E3E00552E226A4200FC0C84 /* AST */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = AST;
+			sourceTree = "<group>";
+		};
+		8E3E00562E226A5400FC0C84 /* Sema */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Sema;
+			sourceTree = "<group>";
+		};
+		8E3E00582E226B8200FC0C84 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				8E3E005D2E226BAE00FC0C84 /* AST */,
+				8E3E005C2E226BAB00FC0C84 /* Parse */,
+				8E3E005B2E226BA800FC0C84 /* Sema */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		8E3E00592E226B8500FC0C84 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				8E3E00562E226A5400FC0C84 /* Sema */,
+				8E3E00542E226A2700FC0C84 /* Parse */,
+				8E3E00552E226A4200FC0C84 /* AST */,
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
+		8E3E005B2E226BA800FC0C84 /* Sema */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Sema;
+			sourceTree = "<group>";
+		};
+		8E3E005C2E226BAB00FC0C84 /* Parse */ = {
+			isa = PBXGroup;
+			children = (
+				8E3E005E2E226BBE00FC0C84 /* Token.h */,
+			);
+			path = Parse;
+			sourceTree = "<group>";
+		};
+		8E3E005D2E226BAE00FC0C84 /* AST */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = AST;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -244,20 +318,26 @@
 		8E3E00512E22698E00FC0C84 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = K2JV594WP2;
 				ENABLE_HARDENED_RUNTIME = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
 		8E3E00522E22698E00FC0C84 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = K2JV594WP2;
 				ENABLE_HARDENED_RUNTIME = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
