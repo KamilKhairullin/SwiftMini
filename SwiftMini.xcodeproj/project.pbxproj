@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8E0172562E23E0D00039DF6B /* Lexer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E0172552E23E0D00039DF6B /* Lexer.cpp */; };
 		8E3E004D2E22698E00FC0C84 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8E3E004C2E22698E00FC0C84 /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -23,6 +24,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8E0172542E2285600039DF6B /* Lexer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Lexer.h; sourceTree = "<group>"; };
+		8E0172552E23E0D00039DF6B /* Lexer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Lexer.cpp; sourceTree = "<group>"; };
 		8E3E00492E22698E00FC0C84 /* SwiftMini */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SwiftMini; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E3E004C2E22698E00FC0C84 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		8E3E005E2E226BBE00FC0C84 /* Token.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Token.h; sourceTree = "<group>"; };
@@ -76,6 +79,7 @@
 		8E3E00542E226A2700FC0C84 /* Parse */ = {
 			isa = PBXGroup;
 			children = (
+				8E0172552E23E0D00039DF6B /* Lexer.cpp */,
 			);
 			path = Parse;
 			sourceTree = "<group>";
@@ -125,6 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				8E3E005E2E226BBE00FC0C84 /* Token.h */,
+				8E0172542E2285600039DF6B /* Lexer.h */,
 			);
 			path = Parse;
 			sourceTree = "<group>";
@@ -193,6 +198,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8E0172562E23E0D00039DF6B /* Lexer.cpp in Sources */,
 				8E3E004D2E22698E00FC0C84 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -319,7 +325,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = K2JV594WP2;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -332,7 +338,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = K2JV594WP2;
 				ENABLE_HARDENED_RUNTIME = YES;

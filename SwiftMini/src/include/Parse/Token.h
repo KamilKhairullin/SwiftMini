@@ -45,7 +45,10 @@ enum class tok: uint8_t {
     // Special
     newline,
     eof,
-    unknown
+    unknown,
+
+    // Invalid
+    NUM_TOKENS
 };
 
 class Token {
@@ -54,7 +57,9 @@ private:
     std::string_view Text; // Swift uses StringRef class from LLVM
     
 public:
-    Token(tok kind, std::string_view text);
+    Token() : Token(tok::NUM_TOKENS, {}) {}
+    Token(tok kind, std::string_view text)
+        : Kind(kind), Text(text) {}
 
     tok getKind() const { return Kind; }
     std::string_view getText() const { return Text; }
@@ -96,6 +101,7 @@ public:
         case tok::newline:
         case tok::eof:
         case tok::unknown:
+        case tok::NUM_TOKENS:
             return false;
         }
     }
@@ -132,6 +138,7 @@ public:
         case tok::newline:
         case tok::eof:
         case tok::unknown:
+        case tok::NUM_TOKENS:
             return false;
         }
     }
@@ -168,6 +175,7 @@ public:
         case tok::newline:
         case tok::eof:
         case tok::unknown:
+        case tok::NUM_TOKENS:
             return false;
         }
     }
@@ -204,6 +212,7 @@ public:
         case tok::newline:
         case tok::eof:
         case tok::unknown:
+        case tok::NUM_TOKENS:
             return false;
         }
     }
@@ -262,6 +271,7 @@ public:
         case tok::newline: return "\\n";
         case tok::eof: return "<EOF>";
         case tok::unknown: return "<unknown>";
+        case tok::NUM_TOKENS: return "<invalid>";
         }
     };
 };
