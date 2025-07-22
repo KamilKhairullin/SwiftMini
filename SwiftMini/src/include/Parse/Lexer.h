@@ -7,15 +7,16 @@ class Lexer {
     
     Token NextToken;
     
-    // Pointer to the first character of the buffer
+    // Указатель на первый символ в буффере
+    // Буфер — это участок памяти, содержащий текст исходного кода одного файла
+    // или фрагмента для лексического анализа.
     const char *BufferStart;
     
-    // Pointer to one past the end character of the buffer.
-    // Because the buffer is always NUL-terminated,
-    // this points to the NUL terminator.
+    // Указатель на последний символ в буффере
+    // Буффер всегда NUL-terminated, поэтому указатель всегда указывает на NUL-terminator
     const char *BufferEnd;
     
-    // Pointer to the next not consumed character.
+    // Указатель на следующий не обработанный символ.
     const char *CurPtr;
 
 public:
@@ -31,16 +32,6 @@ public:
 
 private:
     
-    // Nul character meaning kind.
-    enum class NulCharacterKind {
-    // char buffer[] = "let x = 5";  // Automatically ends with \0
-    BufferEnd,
-    // "let x = 5\0let y = 10". Is an error
-    Embedded,
-    // Code completion marker.
-    CodeCompletion
-    };
-    
     void initialize(std::string_view input);
 
     void lexImpl();
@@ -55,7 +46,15 @@ private:
     
     void skipHashbang();
 
-    NulCharacterKind getNulCharacterKind(const char *Ptr) const;
+    void formToken(tok Kind, const char *TokStart);
+
+    void lexIdentifier();
+
+    void lexNumber();
+
+    void lexStringLiteral();
+
+    tok kindOfIdentifier(const char* start, const char* end);
 };
 
 #endif

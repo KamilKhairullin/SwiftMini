@@ -1,0 +1,127 @@
+//===--- Tokens.def - Swift Mini Tokenizer Metaprogramming -----------*- C++ -*-===//
+//
+//===----------------------------------------------------------------------===//
+//
+// This file defines macros used for macro-metaprogramming lexer tokens.
+//
+//===----------------------------------------------------------------------===//
+
+/// KEYWORD(kw)
+/// Базовый макрос для всех ключевых слов Swift.
+#ifndef KEYWORD
+#define KEYWORD(kw)
+#endif
+
+/// DECL_KEYWORD(kw)
+/// Макрос для ключевых слов, которые используются в объявлениях (declarations).
+/// Является сабсетом KEYWORD. Фолбекает на KEYWORD, если не переопределён
+#ifndef DECL_KEYWORD
+#define DECL_KEYWORD(kw) KEYWORD(kw)
+#endif
+
+/// STMT_KEYWORD(kw)
+/// Макрос для ключевых слов, используемых в грамматике операторов (statements).
+/// Это исполняемые конструкции языка, которые выполняют действия (if, while, return, break, ..)
+/// Является сабсетом KEYWORD. Фолбекает на KEYWORD, если не переопределён
+#ifndef STMT_KEYWORD
+#define STMT_KEYWORD(kw) KEYWORD(kw)
+#endif
+
+/// PUNCTUATOR(name, str)
+///   Макрос для знаков пунктуации и операторов.
+/// Параметры:
+/// - name - символическое имя (например, l_paren, arrow)
+/// - str - строковое представление (например, "(", "->")
+
+#ifndef PUNCTUATOR
+#define PUNCTUATOR(name, str)
+#endif
+
+// Keywords that start decls.
+DECL_KEYWORD(class)
+DECL_KEYWORD(deinit)
+DECL_KEYWORD(enum)
+DECL_KEYWORD(extension)
+DECL_KEYWORD(func)
+DECL_KEYWORD(import)
+DECL_KEYWORD(init)
+DECL_KEYWORD(inout)
+DECL_KEYWORD(let)
+DECL_KEYWORD(operator)
+DECL_KEYWORD(protocol)
+DECL_KEYWORD(struct)
+DECL_KEYWORD(subscript)
+DECL_KEYWORD(typealias)
+DECL_KEYWORD(var)
+DECL_KEYWORD(internal)
+DECL_KEYWORD(private)
+DECL_KEYWORD(public)
+DECL_KEYWORD(static)
+
+// Statement keywords.
+STMT_KEYWORD(if)
+STMT_KEYWORD(do)
+STMT_KEYWORD(else)
+STMT_KEYWORD(for)
+STMT_KEYWORD(in)
+STMT_KEYWORD(while)
+STMT_KEYWORD(return)
+STMT_KEYWORD(break)
+STMT_KEYWORD(continue)
+STMT_KEYWORD(fallthrough)
+STMT_KEYWORD(switch)
+STMT_KEYWORD(case)
+STMT_KEYWORD(default)
+STMT_KEYWORD(where)
+
+// Expression keywords.
+KEYWORD(as)
+KEYWORD(dynamicType)
+KEYWORD(false)
+KEYWORD(is)
+KEYWORD(new)
+KEYWORD(nil)
+KEYWORD(super)
+KEYWORD(self)
+KEYWORD(Self)
+KEYWORD(true)
+KEYWORD(__FILE__)
+KEYWORD(__LINE__)
+KEYWORD(__COLUMN__)
+KEYWORD(__FUNCTION__)
+KEYWORD(__DSO_HANDLE__)
+
+// Pattern keywords.
+KEYWORD(_)
+
+// Punctuators.
+PUNCTUATOR(l_paren,       "(")
+PUNCTUATOR(r_paren,       ")")
+PUNCTUATOR(l_brace,       "{")
+PUNCTUATOR(r_brace,       "}")
+PUNCTUATOR(l_square,      "[")
+PUNCTUATOR(r_square,      "]")
+
+PUNCTUATOR(period,        ".")
+PUNCTUATOR(period_prefix, ".")
+PUNCTUATOR(comma,         ",")
+PUNCTUATOR(colon,         ":")
+PUNCTUATOR(semi,          ";")
+PUNCTUATOR(equal,         "=")
+PUNCTUATOR(at_sign,       "@")
+PUNCTUATOR(pound,         "#")
+
+PUNCTUATOR(amp_prefix,    "&")
+PUNCTUATOR(arrow,         "->")
+
+PUNCTUATOR(backtick,      "`")
+
+PUNCTUATOR(exclaim_postfix, "!") // if left-bound
+
+PUNCTUATOR(question_postfix, "?") // if left-bound
+PUNCTUATOR(question_infix,"?")    // if not left-bound
+
+#undef KEYWORD
+#undef DECL_KEYWORD
+#undef STMT_KEYWORD
+#undef PUNCTUATOR

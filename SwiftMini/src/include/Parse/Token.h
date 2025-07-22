@@ -3,217 +3,85 @@
 
 #include <string_view>
 
-enum class tok: uint8_t {
-
-    // Keywords
-
-    kw_let,
-    kw_var,
-    kw_func,
-    kw_if,
-    kw_else,
-    kw_return,
-
-    // Punctuation
-    l_paren,        // (
-    r_paren,        // )
-    l_brace,        // {
-    r_brace,        // }
-    colon,          // :
-    comma,          // ,
-    semicolon,      // ;
-    arrow,          // ->
-    
-    // Operators
-    equal,          // =
-    plus,           // +
-    minus,          // -
-    star,           // *
-    slash,          // /
-    equal_equal,    // ==
-    exclaim_equal,  // !=
-    less,           // <
-    greater,        // >
-
-    // Identifier
-    identifier,     // variable names
-    
-    // Literals
-    integer_literal,// Integer numbers
-    string_literal, // strings
-
-    // Special
-    newline,
-    eof,
-    unknown,
-
-    // Invalid
-    NUM_TOKENS
+enum class tok {
+  unknown = 0,
+  eof,
+  identifier,
+  oper_binary,
+  oper_postfix,
+  oper_prefix,
+  dollarident,
+  integer_literal,
+  floating_literal,
+  string_literal,
+  character_literal,
+  comment,
+  
+  #define KEYWORD(X) kw_ ## X,
+  #define PUNCTUATOR(X, Y) X,
+  #include "Tokens.def"
+  
+  NUM_TOKENS
 };
 
 class Token {
 private:
     tok Kind;
-    std::string_view Text; // Swift uses StringRef class from LLVM
+    // Text - The actual string covered by the token in the source buffer.
+    std::string_view Text;
     
 public:
     Token() : Token(tok::NUM_TOKENS, {}) {}
     Token(tok kind, std::string_view text)
         : Kind(kind), Text(text) {}
 
+    
     tok getKind() const { return Kind; }
     std::string_view getText() const { return Text; }
+    
+    void setToken(tok K, std::string_view T) {
+        Kind = K;
+        Text = T;
+    }
     
     // is/isNot - Predicates to check if this token is a specific kind, as in
     // "if (Tok.is(tok::l_brace)) {...}".
     bool is(tok K) const { return Kind == K; }
+
     bool isNot(tok K) const { return Kind != K; }
     
+    bool isAnyOperator() const {
+      return Kind == tok::oper_binary || Kind == tok::oper_postfix ||
+             Kind == tok::oper_prefix;
+    }
+
     bool isKeyword() const {
-        switch (Kind) {
-        case tok::kw_let:
-        case tok::kw_var:
-        case tok::kw_func:
-        case tok::kw_if:
-        case tok::kw_else:
-        case tok::kw_return:
-            return true;
-        case tok::l_paren:
-        case tok::r_paren:
-        case tok::l_brace:
-        case tok::r_brace:
-        case tok::colon:
-        case tok::comma:
-        case tok::semicolon:
-        case tok::arrow:
-        case tok::equal:
-        case tok::plus:
-        case tok::minus:
-        case tok::star:
-        case tok::slash:
-        case tok::equal_equal:
-        case tok::exclaim_equal:
-        case tok::less:
-        case tok::greater:
-        case tok::identifier:
-        case tok::integer_literal:
-        case tok::string_literal:
-        case tok::newline:
-        case tok::eof:
-        case tok::unknown:
-        case tok::NUM_TOKENS:
-            return false;
-        }
+      switch (Kind) {
+        #define KEYWORD(X) case tok::kw_##X: return true;
+        #include "Tokens.def"
+      default: 
+        return false;
+      }
     }
     
     bool isPunctuation() const {
         switch (Kind) {
-        case tok::l_paren:
-        case tok::r_paren:
-        case tok::l_brace:
-        case tok::r_brace:
-        case tok::colon:
-        case tok::comma:
-        case tok::semicolon:
-        case tok::arrow:
-            return true;
-        case tok::kw_let:
-        case tok::kw_var:
-        case tok::kw_func:
-        case tok::kw_if:
-        case tok::kw_else:
-        case tok::kw_return:
-        case tok::equal:
-        case tok::plus:
-        case tok::minus:
-        case tok::star:
-        case tok::slash:
-        case tok::equal_equal:
-        case tok::exclaim_equal:
-        case tok::less:
-        case tok::greater:
-        case tok::identifier:
-        case tok::integer_literal:
-        case tok::string_literal:
-        case tok::newline:
-        case tok::eof:
-        case tok::unknown:
-        case tok::NUM_TOKENS:
-            return false;
+          #define PUNCTUATOR(X, Y) case tok::X: return true;
+          #include "Tokens.def"
+        default:
+          return false;
         }
     }
-    
-    bool isOperator() const {
-        switch (Kind) {
-        case tok::equal:
-        case tok::plus:
-        case tok::minus:
-        case tok::star:
-        case tok::slash:
-        case tok::equal_equal:
-        case tok::exclaim_equal:
-        case tok::less:
-        case tok::greater:
-            return true;
-        case tok::kw_let:
-        case tok::kw_var:
-        case tok::kw_func:
-        case tok::kw_if:
-        case tok::kw_else:
-        case tok::kw_return:
-        case tok::l_paren:
-        case tok::r_paren:
-        case tok::l_brace:
-        case tok::r_brace:
-        case tok::colon:
-        case tok::comma:
-        case tok::semicolon:
-        case tok::arrow:
-        case tok::identifier:
-        case tok::integer_literal:
-        case tok::string_literal:
-        case tok::newline:
-        case tok::eof:
-        case tok::unknown:
-        case tok::NUM_TOKENS:
-            return false;
-        }
-    }
-    
+
     bool isLiteral() const {
         switch (Kind) {
-        case tok::integer_literal:
-        case tok::string_literal:
-            return true;
-        case tok::kw_let:
-        case tok::kw_var:
-        case tok::kw_func:
-        case tok::kw_if:
-        case tok::kw_else:
-        case tok::kw_return:
-        case tok::l_paren:
-        case tok::r_paren:
-        case tok::l_brace:
-        case tok::r_brace:
-        case tok::colon:
-        case tok::comma:
-        case tok::semicolon:
-        case tok::arrow:
-        case tok::equal:
-        case tok::plus:
-        case tok::minus:
-        case tok::star:
-        case tok::slash:
-        case tok::equal_equal:
-        case tok::exclaim_equal:
-        case tok::less:
-        case tok::greater:
-        case tok::identifier:
-        case tok::newline:
-        case tok::eof:
-        case tok::unknown:
-        case tok::NUM_TOKENS:
-            return false;
+            case tok::integer_literal:
+            case tok::floating_literal:
+            case tok::string_literal:
+            case tok::character_literal:
+                return true;
+            default:
+                return false;
         }
     }
 
@@ -228,52 +96,29 @@ public:
     bool isEOF() const {
         return Kind == tok::eof;
     }
-
-    std::string_view toString() const {
+    
+    std::string_view getTokenName() {
         switch (Kind) {
-        // Keywords
-        case tok::kw_let: return "let";
-        case tok::kw_var: return "var";
-        case tok::kw_func: return "func";
-        case tok::kw_if: return "if";
-        case tok::kw_else: return "else";
-        case tok::kw_return: return "return";
-        
-        // Punctuation
-        case tok::l_paren: return "(";
-        case tok::r_paren: return ")";
-        case tok::l_brace: return "{";
-        case tok::r_brace: return "}";
-        case tok::colon: return ":";
-        case tok::comma: return ",";
-        case tok::semicolon: return ";";
-        case tok::arrow: return "->";
-        
-        // Operators
-        case tok::equal: return "=";
-        case tok::plus: return "+";
-        case tok::minus: return "-";
-        case tok::star: return "*";
-        case tok::slash: return "/";
-        case tok::equal_equal: return "==";
-        case tok::exclaim_equal: return "!=";
-        case tok::less: return "<";
-        case tok::greater: return ">";
-        
-        // Identifiers
-        case tok::identifier: return Text;
-        
-        // Literals
-        case tok::integer_literal: return Text;
-        case tok::string_literal: return Text;
-        
-        // Special
-        case tok::newline: return "\\n";
-        case tok::eof: return "<EOF>";
-        case tok::unknown: return "<unknown>";
-        case tok::NUM_TOKENS: return "<invalid>";
+            case tok::unknown: return "<unknown>";
+            case tok::eof: return "<EOF>";
+            case tok::identifier: return "<identifier>";
+            case tok::oper_binary: return "<oper_binary>";
+            case tok::oper_postfix: return "<oper_postfix>";
+            case tok::oper_prefix: return "<oper_prefix>";
+            case tok::dollarident: return "<dollarident>";
+            case tok::integer_literal: return "<integer_literal>";
+            case tok::floating_literal: return "<floating_literal>";
+            case tok::string_literal: return "<string_literal>";
+            case tok::character_literal: return "<character_literal>";
+            case tok::comment: return "<comment>";
+            
+            #define KEYWORD(X) case tok::kw_ ## X: return "<kw_" #X ">";
+            #define PUNCTUATOR(X, Y) case tok::X: return "<" #X ">";
+            #include "Tokens.def"
+            
+            default: return "<INVALID_TOKEN>";
         }
-    };
+    }
 };
 
 #endif

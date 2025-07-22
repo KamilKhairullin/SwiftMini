@@ -29,6 +29,8 @@
 		8E3E00492E22698E00FC0C84 /* SwiftMini */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SwiftMini; sourceTree = BUILT_PRODUCTS_DIR; };
 		8E3E004C2E22698E00FC0C84 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		8E3E005E2E226BBE00FC0C84 /* Token.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Token.h; sourceTree = "<group>"; };
+		8ECBED3D2E2FAC9B0015BA2D /* Tokens.def */ = {isa = PBXFileReference; lastKnownFileType = text; path = Tokens.def; sourceTree = "<group>"; };
+		8ECBED402E2FDF240015BA2D /* test.swiftMini */ = {isa = PBXFileReference; lastKnownFileType = text; path = test.swiftMini; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 			children = (
 				8E3E00532E226A1C00FC0C84 /* src */,
 				8E3E004C2E22698E00FC0C84 /* main.cpp */,
+				8ECBED402E2FDF240015BA2D /* test.swiftMini */,
 			);
 			path = SwiftMini;
 			sourceTree = "<group>";
@@ -130,6 +133,7 @@
 			children = (
 				8E3E005E2E226BBE00FC0C84 /* Token.h */,
 				8E0172542E2285600039DF6B /* Lexer.h */,
+				8ECBED3D2E2FAC9B0015BA2D /* Tokens.def */,
 			);
 			path = Parse;
 			sourceTree = "<group>";
@@ -172,6 +176,7 @@
 				TargetAttributes = {
 					8E3E00482E22698E00FC0C84 = {
 						CreatedOnToolsVersion = 15.2;
+						LastSwiftMigration = 1520;
 					};
 				};
 			};
@@ -324,6 +329,7 @@
 		8E3E00512E22698E00FC0C84 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
@@ -331,12 +337,15 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
 		8E3E00522E22698E00FC0C84 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
@@ -344,6 +353,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
