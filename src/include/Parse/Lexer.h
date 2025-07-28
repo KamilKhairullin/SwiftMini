@@ -53,8 +53,6 @@ private:
     void lexNumber();
 
     void lexStringLiteral();
-
-    tok kindOfIdentifier(const char* start, const char* end);
 };
 
 #endif

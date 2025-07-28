@@ -1,6 +1,6 @@
 #include <cassert>
 #include <stdio.h>
-#include "Lexer.h"
+#include "Parse/Lexer.h"
 
 Lexer::Lexer(std::string_view input) {
     initialize(input);
@@ -49,6 +49,8 @@ void Lexer::lexImpl() {
         case ';': return formToken(tok::semi, TokStart);
         case ':': return formToken(tok::colon, TokStart);
         case '=': return formToken(tok::equal, TokStart);
+        case '@': return formToken(tok::at_sign, TokStart);
+        case '$': return formToken(tok::dollarident, TokStart);
         case 'A': case 'B': case 'C': case 'D': case 'E': case 'F': case 'G':
         case 'H': case 'I': case 'J': case 'K': case 'L': case 'M': case 'N':
         case 'O': case 'P': case 'Q': case 'R': case 'S': case 'T': case 'U':
@@ -76,10 +78,10 @@ Restart:
     switch(*CurPtr++) {
         case '\n':
             goto Restart;
+        case '\r':
             // - Встретили \r (carriage return)
             // - Проверяем, не следует ли за ним \n (line feed) - это Windows-стиль \r\n
             // - Если да, то пропускаем и \n тоже
-        case '\r':
             if (CurPtr[0] == '\n') {
                 ++CurPtr;
             }
@@ -192,44 +194,6 @@ static bool skipToEndOfSlashStarComment(const char *&CurPtr, const char *BufferE
   return true;
 }
 
-static bool isValidIdentifierStartChar(char c) {
-  return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_';
-}
-
-static bool isValidOperatorStartChar(char c) {
-  switch (c) {
-  case '+': case '-': case '*': case '/': case '%':
-  case '=': case '!': case '<': case '>': case '&':
-  case '|': case '^': case '~': case '?': case ':':
-  case '.':
-    return true;
-  default:
-    return false;
-  }
-}
-
-static bool advanceIfValidStartOfIdentifier(const char *&ptr, const char *end) {
-  if (ptr >= end) return false;
-  
-  char c = *ptr;
-  if (isValidIdentifierStartChar(c)) {
-    ++ptr;
-    return true;
-  }
-  return false;
-}
-
-static bool advanceIfValidStartOfOperator(const char *&ptr, const char *end) {
-  if (ptr >= end) return false;
-  
-  char c = *ptr;
-  if (isValidOperatorStartChar(c)) {
-    ++ptr;
-    return true;
-  }
-  return false;
-}
-
 void Lexer::skipSlashStarComment() {
   skipToEndOfSlashStarComment(CurPtr, BufferEnd);
 }
@@ -272,7 +236,7 @@ void Lexer::lexIdentifier() {
     }
   }
   
-  tok Kind = kindOfIdentifier(TokStart, CurPtr);
+  tok Kind = Token::kindOfIdentifier(TokStart, CurPtr);
   return formToken(Kind, TokStart);
 }
 
@@ -344,30 +308,4 @@ void Lexer::lexStringLiteral() {
     }
   }
   return formToken(tok::unknown, TokStart);
-}
-
-
-tok Lexer::kindOfIdentifier(const char* start, const char* end) {
-    std::string_view text(start, end - start);
-
-    switch (text.size()) {
-    case 2:
-        if (text == "if") return tok::kw_if;
-        break;
-    case 3:
-        if (text == "let") return tok::kw_let;
-        if (text == "var") return tok::kw_var;
-        break;
-
-    case 4:
-        if (text == "else") return tok::kw_else;
-        if (text == "func") return tok::kw_func;
-        break;
-
-    case 6:
-        if (text == "return") return tok::kw_return;
-        break;
-    }
-
-    return tok::identifier;
 }

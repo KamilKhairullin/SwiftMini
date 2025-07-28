@@ -2,11 +2,11 @@
 #include <fstream>
 #include <string>
 #include <sstream>
-#include "Token.h"
-#include "Lexer.h"
+#include "Parse/Token.h"
+#include "Parse/Lexer.h"
 
-int main(int argc, const char * argv[]) {
-    std::ifstream file("/Users/kamil/Developer/SwiftMini/SwiftMini/test.swiftMini");
+int main() {
+    std::ifstream file("/Users/kamil/Developer/SwiftMini/test.swiftMini");
     if (!file.is_open()) {
         std::cerr << "Can not open file" << std::endl;
         return 1;

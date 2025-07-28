@@ -21,7 +21,7 @@ enum class tok {
   #define PUNCTUATOR(X, Y) X,
   #include "Tokens.def"
   
-  NUM_TOKENS
+  START_OF_FILE
 };
 
 class Token {
@@ -31,7 +31,7 @@ private:
     std::string_view Text;
     
 public:
-    Token() : Token(tok::NUM_TOKENS, {}) {}
+    Token() : Token(tok::START_OF_FILE, {}) {}
     Token(tok kind, std::string_view text)
         : Kind(kind), Text(text) {}
 
@@ -111,13 +111,38 @@ public:
             case tok::string_literal: return "<string_literal>";
             case tok::character_literal: return "<character_literal>";
             case tok::comment: return "<comment>";
-            
+            case tok::START_OF_FILE: return "<START_OF_FILE>";
             #define KEYWORD(X) case tok::kw_ ## X: return "<kw_" #X ">";
             #define PUNCTUATOR(X, Y) case tok::X: return "<" #X ">";
             #include "Tokens.def"
             
             default: return "<INVALID_TOKEN>";
         }
+    }
+    
+    static tok kindOfIdentifier(const char* start, const char* end) {
+        std::string_view text(start, end - start);
+
+        switch (text.size()) {
+        case 2:
+            if (text == "if") return tok::kw_if;
+            break;
+        case 3:
+            if (text == "let") return tok::kw_let;
+            if (text == "var") return tok::kw_var;
+            break;
+
+        case 4:
+            if (text == "else") return tok::kw_else;
+            if (text == "func") return tok::kw_func;
+            break;
+
+        case 6:
+            if (text == "return") return tok::kw_return;
+            break;
+        }
+
+        return tok::identifier;
     }
 };
 
